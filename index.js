@@ -28,15 +28,18 @@ app.listen(PORT, async () => {
 
 // Partie Get
 
-app.get('/api/fripandcollect/GetUsers', (request, response) => {
-    database.collection("User").find({}).toArray((error, result) => {
-        if (error) {
-            response.status(500).send(error);
-        } else {
-            response.send(result);
-        }
-    });
+app.get('/api/fripandcollect/GetUsers', async (request, response) => {
+    console.log("Request received for GetUsers");
+    try {
+        const users = await database.collection("User").find({}).toArray();
+        console.log("Users fetched successfully:", users);
+        response.json(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        response.status(500).json({ error: 'Database query failed' });
+    }
 });
+
 
 app.get('/api/fripandcollect/GetFournisseurs', (request, response) => {
     database.collection("Fournisseur").find({}).toArray((error, result) => {
