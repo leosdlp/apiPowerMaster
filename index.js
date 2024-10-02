@@ -21,10 +21,6 @@ app.listen(5038, async () => {
     }
 });
 
-app.use((req, res) => {
-    req.json({message: "c'est en ligne !"});
-});
-
 
 // Partie Get
 
