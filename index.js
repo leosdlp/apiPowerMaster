@@ -24,7 +24,7 @@ const users = require("./routes/users")
 app.use("/users", users)
 
 app.listen(port, async () => {
-    console.log("Serveur est en ligne !")
+    console.log("Serveur est en ligne !!!!")
     try {
         const client = await MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
         database = client.db(DATABASENAME);
