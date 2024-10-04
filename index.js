@@ -16,11 +16,9 @@ const port = process.env.PORT || 5000;
 
 // Partie Get
 
-app.get('/', (request, response)=>{
-    database.collection("User").find({}).toArray((error, result)=>{
-        response.send(result);
-    });
-})
+app.get('/', async (req, res) => {
+    res.json({"message": "ça marche bien !"});
+});
 
 const users = require("./routes/users")
 app.use("/users", users)
