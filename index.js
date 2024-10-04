@@ -20,11 +20,48 @@ app.get('/', async (req, res) => {
     res.json({"message": "ça marche bien !"});
 });
 
+app.get('/GetUsers', (req, res)=>{
+    database.collection("User").find({}).toArray((error, result)=>{
+        res.send(result);
+    });
+})
+
 const users = require("./routes/users")
-app.use("/users", users)
+app.use("/users", users);
+
+// Partie Add
+
+app.post('AddUsers', multer().none(), (request, response) => {
+    const { username, password, email } = request.body;
+
+    if (!username || !password || !email) {
+        response.status(400).json({ error: 'Username and password are required' });
+        return;
+    }
+
+    database.collection("User").countDocuments({}, function (error, numOfDocs) {
+        if (error) {
+            response.status(500).json({ error: 'Database error' });
+            return;
+        }
+
+        const newUser = {
+            username: username,
+            password: password,
+            email : email
+        };
+
+        database.collection("User").insertOne(newUser, (err, result) => {
+            if (err) {
+                response.status(500).json({ error: 'Insertion error' });
+                return;
+            }
+            response.json("Added Successfully");
+        });
+    });
+});
 
 app.listen(port, async () => {
-    console.log("Serveur est en ligne !!!!")
     try {
         const client = await MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
         database = client.db(DATABASENAME);
