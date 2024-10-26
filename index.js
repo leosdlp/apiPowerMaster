@@ -45,9 +45,9 @@ app.use("/users", users);
 // Partie Add
 
 app.post('/AddUsers', multer().none(), (request, response) => {
-    const { username, password, email, benchPr, squatPr, deadliftPr } = request.body;
+    const { username, password, email, role, benchPr, squatPr, deadliftPr } = request.body;
 
-    if (!username || !password || !email || !benchPr || !squatPr || !deadliftPr) {
+    if (!username || !password || !email || !role || !benchPr || !squatPr || !deadliftPr) {
         response.status(400).json({ error: 'Username, password, email, benchPr, squatPr and deadliftPr are required' });
         return;
     }
@@ -61,7 +61,8 @@ app.post('/AddUsers', multer().none(), (request, response) => {
         const newUser = {
             username: username,
             password: password,
-            email : email,
+            email: email,
+            role: role,
             benchPr : benchPr,
             squatPr : squatPr,
             deadliftPr : deadliftPr
@@ -282,9 +283,9 @@ app.post('/UpdateSeances', upload.none(), (request, response) => {
 });
 
 app.post('/UpdateUsers', upload.none(), (request, response) => {
-    const { id,username, password, email, benchPr, squatPr, deadliftPr } = request.body;
+    const { id,username, password, email, role, benchPr, squatPr, deadliftPr } = request.body;
 
-    if (!id || !username || !password || !email || !benchPr || !squatPr || !deadliftPr) {
+    if (!id || !username || !password || !email || !role || !benchPr || !squatPr || !deadliftPr) {
         response.status(400).json({ error: 'id,username, password, email, benchPr, squatPr and deadliftPr are required to update Produit' });
         return;
     }
@@ -294,6 +295,7 @@ app.post('/UpdateUsers', upload.none(), (request, response) => {
     if (username) updatedUser.username = username;
     if (password) updatedUser.password = password;
     if (email) updatedUser.email = email;
+    if (role) updatedUser.role = role;
     if (benchPr) updatedUser.benchPr = benchPr;
     if (squatPr) updatedUser.squatPr = squatPr;
     if (deadliftPr) updatedUser.deadliftPr = deadliftPr;
